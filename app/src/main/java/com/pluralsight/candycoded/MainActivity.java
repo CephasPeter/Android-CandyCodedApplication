@@ -1,5 +1,6 @@
 package com.pluralsight.candycoded;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -51,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
     });
 
     AsyncHttpClient client = new AsyncHttpClient();
-    client.get("https://vast-brushlands-23089.herokuapp.com/main/api",
-        new TextHttpResponseHandler() {
+    client.get("https://vast-brushlands-23089.herokuapp.com/main/api", new TextHttpResponseHandler() {
           @Override
           public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
             Log.e("AsyncHttpClient", "response = " + response);
@@ -95,5 +96,16 @@ public class MainActivity extends AppCompatActivity {
 
       db.insert(CandyContract.CandyEntry.TABLE_NAME, null, values);
     }
+  }
+
+  /****
+   * This Overrides the Toolbar menu and launches the info activity
+   * when an item is clicked.
+   */
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    Intent infoIntent = new Intent(this,InfoActivity.class);
+    startActivity(infoIntent);
+    return super.onOptionsItemSelected(item);
   }
 }
